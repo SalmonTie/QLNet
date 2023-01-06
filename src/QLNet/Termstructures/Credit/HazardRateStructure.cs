@@ -76,7 +76,7 @@ namespace QLNet
                   Derived classes should override it if a more efficient
                   implementation is available.
       */
-      protected override double survivalProbabilityImpl(double t)
+      public override double survivalProbabilityImpl(double t) //MR 06Jan2023 -Change from protected to facilitate PiecewiseDefaultCurve 
       {
          GaussChebyshevIntegration integral = new GaussChebyshevIntegration(48);
          // this stores the address of the method to integrate (so that
@@ -89,7 +89,7 @@ namespace QLNet
       }
 
       //! default density calculation
-      protected override double defaultDensityImpl(double t)
+      public override double defaultDensityImpl(double t) //MR 06Jan2023 -Change from protected to facilitate PiecewiseDefaultCurve 
       {
          return hazardRateImpl(t) * survivalProbabilityImpl(t);
       }

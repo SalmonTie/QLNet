@@ -233,10 +233,10 @@ namespace QLNet
       // must assume that extrapolation is required.
 
       //! survival probability calculation
-      protected abstract double survivalProbabilityImpl(double t);
+      public abstract double survivalProbabilityImpl(double t); //MR 06Jan2023 -Change from protected to facilitate PiecewiseDefaultCurve 
 
       //! default density calculation
-      protected abstract double defaultDensityImpl(double t);
+      public abstract double defaultDensityImpl(double t); //MR 06Jan2023 -Change from protected to facilitate PiecewiseDefaultCurve 
 
       #endregion
 

@@ -70,7 +70,7 @@ namespace QLNet
 
       #region DefaultProbabilityTermStructure interface
 
-      protected override double survivalProbabilityImpl(double t)
+      public override double survivalProbabilityImpl(double t)  //MR 06Jan2023 -Change from protected to facilitate PiecewiseDefaultCurve 
       {
          return Math.Exp(-hazardRate_.link.value() * t);
       }

@@ -59,7 +59,7 @@ namespace QLNet
       /// </remarks>
       /// <param name="t"></param>
       /// <returns></returns>
-      protected override double defaultDensityImpl(double t)
+      public override double defaultDensityImpl(double t) //MR 06Jan2023 -Change from protected to facilitate PiecewiseDefaultCurve 
       {
          double dt = 0.0001;
          double t1 = Math.Max(t - dt, 0.0);

@@ -99,7 +99,7 @@ namespace QLNet
          // flat hazard rate extrapolation
          return this.data_.Last();
       }
-      protected override double survivalProbabilityImpl(double t)
+      public override double survivalProbabilityImpl(double t)  //MR 06Jan2023 -Change from protected to facilitate PiecewiseDefaultCurve 
       {
          if (t.IsEqual(0.0))
             return 1.0;

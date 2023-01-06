@@ -89,14 +89,14 @@ namespace QLNet
                                                      Interpolator interpolator = default(Interpolator))
          : base(dc, jumps, jumpDates) { }
 
-      protected InterpolatedSurvivalProbabilityCurve(Date referenceDate,
+      public InterpolatedSurvivalProbabilityCurve(Date referenceDate, //MR 06Jan2023 -Change from protected to facilitate PiecewiseDefaultCurve 
                                                      DayCounter dc,
                                                      List<Handle<Quote>> jumps = null,
                                                      List<Date> jumpDates = null,
                                                      Interpolator interpolator = default(Interpolator))
          : base(referenceDate, new Calendar(), dc, jumps, jumpDates) { }
 
-      protected InterpolatedSurvivalProbabilityCurve(int settlementDays,
+      public  InterpolatedSurvivalProbabilityCurve(int settlementDays, //MR 06Jan2023 -Change from protected to facilitate PiecewiseDefaultCurve 
                                                      Calendar cal,
                                                      DayCounter dc,
                                                      List<Handle<Quote>> jumps = null,
@@ -109,7 +109,7 @@ namespace QLNet
       /// </summary>
       /// <param name="t"></param>
       /// <returns></returns>
-      protected override double survivalProbabilityImpl(double t)
+      public override double survivalProbabilityImpl(double t) //MR 06Jan2023 -Change from protected to facilitate PiecewiseDefaultCurve 
       {
          if (t <= this.times_.Last())
             return this.interpolation_.value(t, true);
@@ -121,7 +121,7 @@ namespace QLNet
          return sMax * Math.Exp(-hazardMax * (t - tMax));
       }
 
-      protected override double defaultDensityImpl(double t)
+      public override double defaultDensityImpl(double t) //MR 06Jan2023 -Change from protected to facilitate PiecewiseDefaultCurve 
       {
          if (t <= this.times_.Last())
             return -this.interpolation_.derivative(t, true);
