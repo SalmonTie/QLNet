@@ -554,7 +554,9 @@ namespace QLNet
       //! truncated schedule
       public Schedule until(Date truncationDate)
       {
-         Schedule result = (Schedule)this.MemberwiseClone();
+         var result = (Schedule)MemberwiseClone();
+         result.dates_ = new List<Date>(dates_);
+         result.isRegular_ = new List<bool>(isRegular_);
 
          Utils.QL_REQUIRE(truncationDate > result.dates_[0], () =>
                           "truncation date " + truncationDate +
@@ -566,8 +568,8 @@ namespace QLNet
             // remove later dates
             while (result.dates_.Last() > truncationDate)
             {
-               result.dates_.RemoveAt(dates_.Count - 1);
-               result.isRegular_.RemoveAt(isRegular_.Count - 1);
+               result.dates_.RemoveAt(result.dates_.Count - 1);
+               result.isRegular_.RemoveAt(result.isRegular_.Count - 1);
             }
 
             // add truncationDate if missing
