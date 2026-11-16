@@ -172,8 +172,8 @@ namespace QLNet
             Utils.QL_FAIL("Credit curve must be flat forward interpolated");
          }
 
-         // Todo check
-         List<Date> nodes = yDates.Union(cDates).ToList();
+         // ascending and de-duplicated, as QuantLib's std::set_union; the loops below rely on it
+         List<Date> nodes = yDates.Union(cDates).OrderBy(d => d).ToList();
 
          if (nodes.empty())
          {
@@ -367,6 +367,7 @@ namespace QLNet
          {
             results_.couponLegNPV *= -1.0;
             results_.upfrontNPV *= -1.0;
+            upfrontSign = -1.0;
          }
 
          results_.value = results_.defaultLegNPV + results_.couponLegNPV +
