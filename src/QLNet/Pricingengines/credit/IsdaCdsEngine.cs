@@ -367,6 +367,7 @@ namespace QLNet
          {
             results_.couponLegNPV *= -1.0;
             results_.upfrontNPV *= -1.0;
+            upfrontSign = -1.0;
          }
 
          results_.value = results_.defaultLegNPV + results_.couponLegNPV +
