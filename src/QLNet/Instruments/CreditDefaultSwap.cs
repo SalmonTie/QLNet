@@ -112,6 +112,9 @@ namespace QLNet
             accrualRebate_ = new SimpleCashFlow(firstCoupon.accruedAmount(protectionStart_), rebateDate);
          }
 
+         // after the rebate, which accrues on the regular day counter
+         applyLastPeriodDayCounterToSingleCoupon(lastPeriodDayCounter);
+
          upfrontPayment_ = new SimpleCashFlow(0.0, effectiveUpfrontDate);
 
          if (claim_ == null)
@@ -194,11 +197,28 @@ namespace QLNet
             accrualRebate_ = new SimpleCashFlow(firstCoupon.accruedAmount(protectionStart_), rebateDate);
          }
 
+         // after the rebate, which accrues on the regular day counter
+         applyLastPeriodDayCounterToSingleCoupon(lastPeriodDayCounter);
+
          if (claim_ == null)
             claim_ = new FaceValueClaim();
          claim_.registerWith(update);
 
          maturity_ = schedule.dates().Last();
+      }
+
+      // FixedRateLeg applies the last-period day counter only when there are at least two coupons
+      private void applyLastPeriodDayCounterToSingleCoupon(DayCounter lastPeriodDayCounter)
+      {
+         if (leg_.Count != 1 || lastPeriodDayCounter == null)
+            return;
+
+         FixedRateCoupon coupon = leg_[0] as FixedRateCoupon;
+         InterestRate rate = coupon.interestRate();
+         leg_[0] = new FixedRateCoupon(coupon.date(), coupon.nominal(),
+                                       new InterestRate(rate.rate(), lastPeriodDayCounter, rate.compounding(), rate.frequency()),
+                                       coupon.accrualStartDate(), coupon.accrualEndDate(),
+                                       coupon.referencePeriodStart, coupon.referencePeriodEnd, coupon.exCouponDate());
       }
 
       /// <summary>
